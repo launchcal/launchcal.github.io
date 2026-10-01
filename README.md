@@ -10,6 +10,17 @@ and scrub shows up in your calendar, in your own time zone.
 
 **Unofficial.** Not affiliated with, endorsed by, or connected to SpaceX.
 
+<table>
+  <tr>
+    <td width="58%"><img src="site/img/screens/google-event.jpg" alt="Google Calendar showing the Falcon 9 Crew-13 event with time, pad, status, booster, spacecraft, crew, orbit and webcast link"></td>
+    <td width="42%"><img src="site/img/screens/google-agenda.jpg" alt="Google Calendar schedule on a phone listing upcoming Falcon 9 and Falcon Heavy launches with local times"></td>
+  </tr>
+  <tr>
+    <td>Every launch carries the details: time, pad, booster and landing, crew, webcast.</td>
+    <td>Upcoming launches on your phone, in your time zone.</td>
+  </tr>
+</table>
+
 ## Subscribe
 
 | Calendar | What's in it | Google Calendar | Apple Calendar, Outlook, others (ICS) |
@@ -74,7 +85,7 @@ only print the changes, and `--calendar all=<calendarId>` to sync one calendar i
 | `src/event.ts` | Event text and timing, shared by ICS and Google |
 | `src/ics.ts`, `src/build.ts` | ICS writer and build entry point |
 | `src/gcal.ts`, `src/google.ts`, `src/sync.ts` | Google Calendar diff, API client and sync entry point |
-| `src/page.ts`, `src/page.html`, `site/` | Website template and static assets |
+| `src/page.ts`, `src/page.html`, `site/` | Website template and static assets (`site/img/screens/` holds the screenshots) |
 
 ## Data and credits
 
