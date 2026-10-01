@@ -20,6 +20,13 @@ Stack: Node 24 + TypeScript run directly (no build step), `googleapis`, plain st
 - Public name: launchcal. Public GitHub repo `launchcal/launchcal.github.io` (org `launchcal`; repo name gives Pages at the root `launchcal.github.io`).
 - Landing page: SpaceX-inspired visual language (black, full-bleed photo, D-DIN uppercase, outline buttons). No SpaceX logo, assets or CSS. Photos from NASA (public domain); verify licence of any SpaceX Flickr image before use.
 
+## Repo setup (2026-10-01)
+
+- Ruleset "Protect main": no deletion/force push, PR required, 1 code-owner approval (CODEOWNERS `* @roma321m`), threads resolved, squash only. Bypass: repo admin and org admin, PR merges only.
+- Squash merge only, auto-delete branches. Secret scanning + push protection, Dependabot alerts + security updates (version updates off), private vulnerability reporting.
+- Actions: default token read-only, cannot approve PRs; fork PR runs need approval. Never use `pull_request_target`.
+- Org `launchcal`: base permission none, 2FA required.
+
 ## Roadmap (one branch + PR per step)
 
 1. Fetch and normalise: LL2 client, internal launch model, `snapshot.json`, tests on recorded responses. Done: sane local JSON.

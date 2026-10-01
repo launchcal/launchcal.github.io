@@ -1,0 +1,22 @@
+name: Bug report
+description: Something in the calendar, feed or website is broken.
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: Include the launch name and which calendar or feed, if relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: input
+    id: client
+    attributes:
+      label: Calendar app
+      placeholder: Google Calendar web, Apple Calendar on iOS, Outlook, ...
