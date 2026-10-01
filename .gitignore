@@ -8,3 +8,10 @@ data/
 site/cal/
 site/index.html
 site/next.json
+
+# Local assistant notes, kept out of the public repo
+CLAUDE.md
+.claude/
+docs/HANDOFF.md
+docs/progress-log.md
+docs/reviews/
