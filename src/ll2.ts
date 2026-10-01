@@ -8,10 +8,14 @@ export const UPCOMING_URL = `https://ll.thespacedevs.com/2.3.0/launches/upcoming
 /** How far back launched flights stay in the calendars. */
 const RECENT_DAYS = 30;
 
-/** Previous launches since midnight UTC `RECENT_DAYS` ago, so the query only moves once a day. */
+/** Midnight UTC `RECENT_DAYS` ago: the start of the snapshot, moving only once a day. */
+export function recentSince(now: Date): string {
+  return `${new Date(now.getTime() - RECENT_DAYS * 86_400_000).toISOString().slice(0, 10)}T00:00:00Z`;
+}
+
+/** Previous launches since `recentSince`. */
 export function recentUrl(now: Date): string {
-  const since = new Date(now.getTime() - RECENT_DAYS * 86_400_000).toISOString().slice(0, 10);
-  return `https://ll.thespacedevs.com/2.3.0/launches/previous/?${QUERY}&net__gte=${since}T00:00:00Z`;
+  return `https://ll.thespacedevs.com/2.3.0/launches/previous/?${QUERY}&net__gte=${recentSince(now)}`;
 }
 
 const USER_AGENT = 'launchcal (+https://github.com/launchcal/launchcal.github.io)';
