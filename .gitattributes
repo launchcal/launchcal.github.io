@@ -1,2 +1,0 @@
-# RFC 5545 requires CRLF line endings; store feeds byte for byte.
-*.ics -text

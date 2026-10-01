@@ -17,7 +17,8 @@ Node 24 runs the TypeScript in `src/` directly (type stripping, no build). Impor
 - `src/launch.ts`: launchcal's own `Launch` model. `src/ll2.ts`: LL2 client and normaliser. `src/fetch.ts`: fetch entry point.
 - `src/calendars.ts`: the 4 calendars and their filters (ids are public URLs, never rename). `src/event.ts`: format-neutral event text and timing, shared by ICS and the Google sync. `src/ics.ts`: RFC 5545 writer. `src/build.ts`: build entry point.
 - `test/fixtures/ll2-upcoming.json` (5) and `ll2-previous.json` (1): real, unedited LL2 detailed records (recorded 2026-10-01).
-- `data/snapshot.json`: committed state; sorted, no volatile fields, so it only changes on real changes.
+- `data/snapshot.json`, `site/cal/*.ics`: generated, git-ignored. `site/` is deployed to Pages by `.github/workflows/publish.yml` (every 2h, on push to main, manual).
+- `.github/workflows/ci.yml`: typecheck + tests, required check on `main`. Actions are pinned by commit SHA.
 
 ## Known facts
 

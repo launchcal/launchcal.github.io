@@ -1,5 +1,9 @@
 # Progress log
 
+## 2026-10-01 (step 3)
+
+- CI (typecheck + tests, required check `test` on main) and publish workflow (every 2h, push to main, manual) deploying `site/` to Pages. Generated snapshot and feeds removed from git. Pages source switched from branch to GitHub Actions. Review found configure-pages would 403 with a read-only token; step removed.
+
 ## 2026-10-01 (step 2)
 
 - Snapshot now also holds SpaceX launches of the last 30 days (Roman's request), so flown launches stay in calendars.

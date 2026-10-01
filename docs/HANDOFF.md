@@ -2,7 +2,7 @@
 
 ## Current state
 
-Steps 1 and 2 done (step 2 on branch `feat/ics`): snapshot of upcoming + last 30 days, 4 ICS feeds in `site/cal/`. Repo at https://github.com/launchcal/launchcal.github.io.
+Steps 1-2 merged. Step 3 on branch `feat/publish`: CI + scheduled publish to Pages (no generated files in git). Repo at https://github.com/launchcal/launchcal.github.io.
 
 ## Architecture
 
@@ -31,7 +31,7 @@ Stack: Node 24 + TypeScript run directly (no build step), `googleapis`, plain st
 
 1. Fetch and normalise: LL2 client, internal launch model, `snapshot.json`, tests on recorded responses. Done: sane local JSON.
 2. Classify and generate ICS: 4 categories, date precision rules, event text, 4 `.ics`. Done: validator passes, imports into a throwaway Google calendar.
-3. Scheduled pipeline + Pages: Action every 2h, commit only on change. Done: Roman subscribes by ICS URL and sees launches.
+3. Scheduled pipeline + Pages: Action every 2h fetches, builds and deploys `site/` as a Pages artifact (nothing committed: `main` only accepts PRs, and a failed run leaves the last deploy live). Done: Roman subscribes by ICS URL and sees launches.
 4. Google Calendar sync: diff by launch id (event extended property), create/update/delete, dry-run. Done: test calendar first, then a real time change propagates. Prereq (Roman): GCP project, Calendar API, service account key in GitHub secret, 4 public calendars shared with it.
 5. Landing page: description, 4 subscribe buttons + ICS links, disclaimer, Buy Me a Coffee. Done: phone width OK, every button correct. Prereq (Roman): Buy Me a Coffee account.
 6. Go-live: enable Pages at `launchcal.github.io`, README.
@@ -50,6 +50,9 @@ Next step: 3.
 - LL2 lists only about 1 Starlink launch ahead (they are announced late), so the "no Starlink" calendar differs little from "All" until close to launch.
 - "Crewed" cannot rely on the crew list alone: Axiom 5 and Crew-15 have no crew assigned yet. Haven-1 and the Starship HLS demo are `Human Exploration` but uncrewed.
 - LL2 placeholders (`Unknown F9` serial, `N/A` landing, `N/A` orbit, unknown landing attempt) are mapped to null in `toLaunch`.
+- Scheduled workflows in public repos are disabled after 60 days without repo activity. `publish.yml` re-enables itself on every scheduled run; UNVERIFIED that this resets the timer. Check the workflow is still enabled after 2026-12-01, GitHub also emails before disabling.
+- LL2 limits per IP and runners share IPs: publish retries the fetch once after 90s. Watch the failure rate.
+- Pages source must stay "GitHub Actions" (`build_type: workflow`); the branch source would publish the repo root instead.
 - `crewed`/`starship` feeds can legitimately have zero events (e.g. no crewed flight within 30 days with a day-precise date). `build` only refuses when `all` is empty. Check in step 3 that Google accepts an empty subscribed feed.
 - The recent/upcoming merge in `src/fetch.ts` (upcoming wins by id) and its abort path are untested top-level script code; covering them needs a small extraction (ask Roman first).
 - ICS `DTSTAMP` is a fixed constant so feeds only change on real changes. Verify in step 3 that a real subscription picks up an edited event.
