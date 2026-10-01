@@ -9,6 +9,7 @@
   "scripts": {
     "fetch": "node src/fetch.ts",
     "build": "node src/build.ts",
+    "sync": "node src/sync.ts",
     "test": "node --test \"test/**/*.test.ts\"",
     "typecheck": "tsc"
   },
