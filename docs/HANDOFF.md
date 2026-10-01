@@ -2,7 +2,7 @@
 
 ## Current state
 
-Step 1 (fetch and normalise) done on branch `feat/fetch-normalise`. Repo at https://github.com/launchcal/launchcal.github.io.
+Steps 1 and 2 done (step 2 on branch `feat/ics`): snapshot of upcoming + last 30 days, 4 ICS feeds in `site/cal/`. Repo at https://github.com/launchcal/launchcal.github.io.
 
 ## Architecture
 
@@ -36,18 +36,24 @@ Stack: Node 24 + TypeScript run directly (no build step), `googleapis`, plain st
 5. Landing page: description, 4 subscribe buttons + ICS links, disclaimer, Buy Me a Coffee. Done: phone width OK, every button correct. Prereq (Roman): Buy Me a Coffee account.
 6. Go-live: enable Pages at `launchcal.github.io`, README.
 
-Next step: 2.
+Event rules (step 2): SEC/MIN/HR precision → 1 hour timed event at T-0, window in the description; DAY → all-day; month or coarser → no event. Status other than Go/In Flight/Success → title suffix and TENTATIVE. Crewed = crew listed or Crew Dragon. No-Starlink keeps Starship flights carrying Starlink.
+
+Next step: 3.
 
 ## How to run
 
-`npm ci`, then `npm run fetch` (writes `data/snapshot.json`), `npm test`, `npm run typecheck`.
+`npm ci`, then `npm run fetch` (writes `data/snapshot.json`), `npm run build` (writes `site/cal/*.ics`), `npm test`, `npm run typecheck`.
 
 ## Traps
 
 - LL2 vague dates are the norm: on 2026-10-01, 40 of 100 launches were year-only, 27 month-only, 5 day-or-better. Vague `net` is a placeholder like `2026-12-31T00:00:00Z`.
 - LL2 lists only about 1 Starlink launch ahead (they are announced late), so the "no Starlink" calendar differs little from "All" until close to launch.
 - "Crewed" cannot rely on the crew list alone: Axiom 5 and Crew-15 have no crew assigned yet. Haven-1 and the Starship HLS demo are `Human Exploration` but uncrewed.
-- LL2 placeholders (`Unknown F9` serial, `N/A` landing) are mapped to null in `toLaunch`.
+- LL2 placeholders (`Unknown F9` serial, `N/A` landing, `N/A` orbit, unknown landing attempt) are mapped to null in `toLaunch`.
+- `crewed`/`starship` feeds can legitimately have zero events (e.g. no crewed flight within 30 days with a day-precise date). `build` only refuses when `all` is empty. Check in step 3 that Google accepts an empty subscribed feed.
+- The recent/upcoming merge in `src/fetch.ts` (upcoming wins by id) and its abort path are untested top-level script code; covering them needs a small extraction (ask Roman first).
+- ICS `DTSTAMP` is a fixed constant so feeds only change on real changes. Verify in step 3 that a real subscription picks up an edited event.
+- 2026-10-01: `all.ics` imported into Roman's throwaway Google calendar "launchcal test" and checked via the Calendar connector: all 14 events, times, all-day and tentative handling correct. Delete that calendar when done with it.
 - Launch times change hours before liftoff (scrubs). A once-a-day poll is too slow.
 - LL2 free tier is rate limited; one scheduled fetch, never per visitor.
 - A failed or suspiciously empty fetch must abort without writing, or one outage wipes every subscriber's calendar. Needs its own test.

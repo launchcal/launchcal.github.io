@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { describe, it } from 'node:test';
-import { fetchUpcoming, toLaunch, UPCOMING_URL, type RawLaunch } from '../src/ll2.ts';
+import { fetchRecent, fetchUpcoming, recentUrl, toLaunch, UPCOMING_URL, type RawLaunch } from '../src/ll2.ts';
 
 const fixture = JSON.parse(readFileSync('test/fixtures/ll2-upcoming.json', 'utf8')) as { results: RawLaunch[] };
 const launch = (name: string) => toLaunch(fixture.results.find((raw) => raw.name === name)!);
@@ -26,7 +26,7 @@ describe('toLaunch', () => {
     assert.equal(crew13.pad, 'Space Launch Complex 40');
     assert.equal(crew13.location, 'Cape Canaveral SFS, FL, USA');
     assert.equal(crew13.missionType, 'Human Exploration');
-    assert.equal(crew13.orbit, 'LEO');
+    assert.equal(crew13.orbit, 'Low Earth Orbit');
     assert.match(crew13.description!, /^SpaceX Crew-13 is the thirteenth crewed operational flight/);
     assert.deepEqual(crew13.boosters, [{ serial: 'B1101', landingAttempt: true, landingLocation: 'LZ-40' }]);
     assert.equal(crew13.spacecraft, 'Crew Dragon Grace');
@@ -83,6 +83,20 @@ describe('toLaunch', () => {
     assert.equal(cygnus.missionType, 'Resupply');
   });
 
+  it('drops an unknown orbit instead of showing N/A', () => {
+    const base = fixture.results.find((raw) => raw.name === 'Falcon 9 Block 5 | Crew-13')!;
+    const unknownOrbit: RawLaunch = { ...base, mission: { ...base.mission!, orbit: { abbrev: 'N/A', name: 'Unknown' } } };
+
+    assert.equal(toLaunch(unknownOrbit).orbit, null);
+  });
+
+  it('trims the N/A suffix from a partly known orbit', () => {
+    const base = fixture.results.find((raw) => raw.name === 'Falcon 9 Block 5 | Crew-13')!;
+    const helio: RawLaunch = { ...base, mission: { ...base.mission!, orbit: { abbrev: 'Helio-N/A', name: 'Heliocentric N/A' } } };
+
+    assert.equal(toLaunch(helio).orbit, 'Heliocentric');
+  });
+
   it('falls back when optional sections are missing', () => {
     const base = fixture.results.find((raw) => raw.name === 'Falcon 9 Block 5 | Crew-13')!;
     const sparse: RawLaunch = {
@@ -107,7 +121,7 @@ describe('toLaunch', () => {
     assert.equal(sparseLaunch.missionType, null);
     assert.equal(sparseLaunch.orbit, null);
     assert.equal(sparseLaunch.description, null);
-    assert.deepEqual(sparseLaunch.boosters, [{ serial: null, landingAttempt: false, landingLocation: null }]);
+    assert.deepEqual(sparseLaunch.boosters, [{ serial: null, landingAttempt: null, landingLocation: null }]);
     assert.equal(sparseLaunch.spacecraft, null);
     assert.deepEqual(sparseLaunch.crew, []);
   });
@@ -159,5 +173,22 @@ describe('fetchUpcoming', () => {
     const shifted = fakeFetch({ [UPCOMING_URL]: page(3, next, [first, second]), [next]: page(3, null, [second]) });
 
     await assert.rejects(fetchUpcoming(shifted), /returned a launch twice/);
+  });
+});
+
+describe('fetchRecent', () => {
+  const now = new Date('2026-10-01T15:00:00Z');
+
+  it('asks for previous launches since midnight UTC 30 days ago', () => {
+    assert.equal(
+      recentUrl(now),
+      'https://ll.thespacedevs.com/2.3.0/launches/previous/?lsp__name=SpaceX&limit=100&mode=detailed&net__gte=2026-09-01T00:00:00Z',
+    );
+  });
+
+  it('accepts an empty result, since a month without launches is possible', async () => {
+    const empty = fakeFetch({ [recentUrl(now)]: page(0, null, []) });
+
+    assert.deepEqual(await fetchRecent(now, empty), []);
   });
 });

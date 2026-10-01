@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//launchcal//launchcal.github.io//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:SpaceX crewed launches
+X-WR-CALDESC:Unofficial\, auto-updating calendar from https://launchcal.git
+ hub.io. Not affiliated with SpaceX. Launch data: The Space Devs.
+REFRESH-INTERVAL;VALUE=DURATION:PT2H
+X-PUBLISHED-TTL:PT2H
+BEGIN:VEVENT
+UID:18441371-8b2e-457c-afb5-1ec1b11ab630@launchcal.github.io
+DTSTAMP:20261001T000000Z
+DTSTART:20261001T151006Z
+DTEND:20261001T161006Z
+SUMMARY:🚀 Falcon 9 · Crew-13
+LOCATION:Space Launch Complex 40\, Cape Canaveral SFS\, FL\, USA
+DESCRIPTION:Status: Go\nBooster: B1101\, landing LZ-40\nSpacecraft: Crew Dr
+ agon Grace\nCrew: Jessica Watkins\, Joshua Kutryk\, Luke Delaney\, Sergey 
+ Teteryatnikov\nOrbit: Low Earth Orbit\nMission type: Human Exploration\nWe
+ bcast: https://www.youtube.com/watch?v=7ZiUbT1-djA\n\nSpaceX Crew-13 is th
+ e thirteenth crewed operational flight of a Crew Dragon spacecraft to the 
+ International Space Station as part of NASA's Commercial Crew Program.\n\n
+ Unofficial\, not affiliated with SpaceX. Data: The Space Devs. https://lau
+ nchcal.github.io
+URL:https://www.youtube.com/watch?v=7ZiUbT1-djA
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+END:VCALENDAR

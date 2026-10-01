@@ -8,13 +8,15 @@ Unofficial, self-updating public calendar of SpaceX launches that anyone can sub
 Node 24 runs the TypeScript in `src/` directly (type stripping, no build). Imports use `.ts` extensions.
 `tsc` is for type checking only. Tests use the built-in `node:test`.
 
-- `npm run fetch`: fetch upcoming launches from Launch Library 2, write `data/snapshot.json`.
+- `npm run fetch`: fetch upcoming launches and those of the last 30 days from Launch Library 2, write `data/snapshot.json`.
+- `npm run build`: render `data/snapshot.json` into `site/cal/{all,crewed,starship,no-starlink}.ics`.
 - `npm test`, `npm run typecheck`.
 
 ## Layout
 
-- `src/launch.ts`: launchcal's own `Launch` model. `src/ll2.ts`: LL2 client and normaliser. `src/fetch.ts`: entry point.
-- `test/fixtures/ll2-upcoming.json`: 5 real, unedited LL2 detailed records (recorded 2026-10-01).
+- `src/launch.ts`: launchcal's own `Launch` model. `src/ll2.ts`: LL2 client and normaliser. `src/fetch.ts`: fetch entry point.
+- `src/calendars.ts`: the 4 calendars and their filters (ids are public URLs, never rename). `src/event.ts`: format-neutral event text and timing, shared by ICS and the Google sync. `src/ics.ts`: RFC 5545 writer. `src/build.ts`: build entry point.
+- `test/fixtures/ll2-upcoming.json` (5) and `ll2-previous.json` (1): real, unedited LL2 detailed records (recorded 2026-10-01).
 - `data/snapshot.json`: committed state; sorted, no volatile fields, so it only changes on real changes.
 
 ## Known facts

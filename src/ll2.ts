@@ -1,8 +1,18 @@
 import type { Launch } from './launch.ts';
 
 /** Detailed mode is needed for boosters, crew and webcasts; pages are capped at 100 results. */
-export const UPCOMING_URL =
-  'https://ll.thespacedevs.com/2.3.0/launches/upcoming/?lsp__name=SpaceX&limit=100&mode=detailed';
+const QUERY = 'lsp__name=SpaceX&limit=100&mode=detailed';
+
+export const UPCOMING_URL = `https://ll.thespacedevs.com/2.3.0/launches/upcoming/?${QUERY}`;
+
+/** How far back launched flights stay in the calendars. */
+const RECENT_DAYS = 30;
+
+/** Previous launches since midnight UTC `RECENT_DAYS` ago, so the query only moves once a day. */
+export function recentUrl(now: Date): string {
+  const since = new Date(now.getTime() - RECENT_DAYS * 86_400_000).toISOString().slice(0, 10);
+  return `https://ll.thespacedevs.com/2.3.0/launches/previous/?${QUERY}&net__gte=${since}T00:00:00Z`;
+}
 
 const USER_AGENT = 'launchcal (+https://github.com/launchcal/launchcal.github.io)';
 
@@ -20,7 +30,7 @@ export interface RawLaunch {
     name: string;
     type: string | null;
     description: string | null;
-    orbit: { abbrev: string } | null;
+    orbit: { abbrev: string; name: string } | null;
   } | null;
   rocket: {
     configuration: { name: string };
@@ -42,10 +52,22 @@ interface Page {
   results: RawLaunch[];
 }
 
-/** Fetches every upcoming SpaceX launch across all pages; throws rather than return a partial or empty list. */
+/** Fetches every upcoming SpaceX launch; throws rather than return an empty list. */
 export async function fetchUpcoming(fetchFn: typeof fetch = fetch): Promise<RawLaunch[]> {
+  const launches = await fetchAllPages(UPCOMING_URL, fetchFn);
+  if (launches.length === 0) throw new Error('Launch Library 2 returned no upcoming launches');
+  return launches;
+}
+
+/** Fetches SpaceX launches of the last `RECENT_DAYS` days; empty is valid, e.g. during a stand-down. */
+export async function fetchRecent(now: Date, fetchFn: typeof fetch = fetch): Promise<RawLaunch[]> {
+  return fetchAllPages(recentUrl(now), fetchFn);
+}
+
+/** Follows `next` links across all pages; throws rather than return a partial list. */
+async function fetchAllPages(firstUrl: string, fetchFn: typeof fetch): Promise<RawLaunch[]> {
   const launches: RawLaunch[] = [];
-  let url: string | null = UPCOMING_URL;
+  let url: string | null = firstUrl;
   let expected = 0;
   while (url) {
     const res = await fetchFn(url, { headers: { 'User-Agent': USER_AGENT }, signal: AbortSignal.timeout(60_000) });
@@ -55,7 +77,6 @@ export async function fetchUpcoming(fetchFn: typeof fetch = fetch): Promise<RawL
     launches.push(...page.results);
     url = page.next;
   }
-  if (launches.length === 0) throw new Error('Launch Library 2 returned no upcoming launches');
   if (launches.length !== expected) {
     throw new Error(`Launch Library 2 paging returned ${launches.length} launches, expected ${expected}`);
   }
@@ -79,14 +100,14 @@ export function toLaunch(raw: RawLaunch): Launch {
     pad: raw.pad.name,
     location: raw.pad.location.name,
     missionType: raw.mission?.type ?? null,
-    orbit: raw.mission?.orbit?.abbrev ?? null,
+    orbit: raw.mission?.orbit && raw.mission.orbit.abbrev !== 'N/A' ? raw.mission.orbit.name.replace(/ N\/A$/, '') : null,
     description: raw.mission?.description ?? null,
     boosters: raw.rocket.launcher_stage.map((stage) => {
       const serial = stage.launcher?.serial_number ?? null;
       const landingLocation = stage.landing?.landing_location?.abbrev ?? null;
       return {
         serial: serial === null || serial.startsWith('Unknown') ? null : serial,
-        landingAttempt: stage.landing?.attempt ?? false,
+        landingAttempt: stage.landing?.attempt ?? null,
         landingLocation: landingLocation === 'N/A' ? null : landingLocation,
       };
     }),
