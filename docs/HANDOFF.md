@@ -2,7 +2,7 @@
 
 ## Current state
 
-Planning. Folder, git, docs and public GitHub repo. No code yet.
+Planning done. Repo at https://github.com/launchcal/launchcal.github.io. No code yet.
 
 ## Architecture
 
@@ -17,7 +17,7 @@ Stack: Node 24 + TypeScript run directly (no build step), `googleapis`, plain st
 
 - Native public Google Calendars (Calendar API, service account) plus an ICS mirror of the same data.
 - Four calendars: All, Crewed, Starship, Everything except Starlink.
-- Public name: launchcal. Public GitHub repo, moving from `roma321m/launchcal` to org `launchcal` (Roman creating the org).
+- Public name: launchcal. Public GitHub repo `launchcal/launchcal.github.io` (org `launchcal`; repo name gives Pages at the root `launchcal.github.io`).
 - Landing page: SpaceX-inspired visual language (black, full-bleed photo, D-DIN uppercase, outline buttons). No SpaceX logo, assets or CSS. Photos from NASA (public domain); verify licence of any SpaceX Flickr image before use.
 
 ## Roadmap (one branch + PR per step)
@@ -27,7 +27,7 @@ Stack: Node 24 + TypeScript run directly (no build step), `googleapis`, plain st
 3. Scheduled pipeline + Pages: Action every 2h, commit only on change. Done: Roman subscribes by ICS URL and sees launches.
 4. Google Calendar sync: diff by launch id (event extended property), create/update/delete, dry-run. Done: test calendar first, then a real time change propagates. Prereq (Roman): GCP project, Calendar API, service account key in GitHub secret, 4 public calendars shared with it.
 5. Landing page: description, 4 subscribe buttons + ICS links, disclaimer, Buy Me a Coffee. Done: phone width OK, every button correct. Prereq (Roman): Buy Me a Coffee account.
-6. Go-live: transfer repo to `launchcal` org, Pages at `launchcal.github.io`, README.
+6. Go-live: enable Pages at `launchcal.github.io`, README.
 
 Next step: 1.
 
