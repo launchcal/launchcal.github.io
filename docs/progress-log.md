@@ -1,5 +1,11 @@
 # Progress log
 
+## 2026-10-01 (step 5 live, step 4 CI-verified)
+
+- Landing page merged (PR #8): generated from `src/page.html` + `src/calendars.ts`, 4 subscribe cards (Google add, webcal, copy ICS), next launch panel with countdown from `next.json`, D-DIN + NASA CRS-20 night photo, 272 KB, same-origin only.
+- Verified locally at 1600/1280/375 px; countdown switching and hide via faked clock; copy fallback; Roman confirmed the Google add link. Review fixes: copy label race, https-only webcast, `$&` replacement, per-calendar link labels, copy status for screen readers, NASA no-endorsement line. 71 tests, mutation-checked.
+- First green CI run with sync (36886410303): Crew-13 Go → Success updated in all/crewed/no-starlink Google calendars within the run; live site serves page, `next.json`, feeds.
+
 ## 2026-10-01 (step 4)
 
 - Google Calendar sync merged (PR #6): service account JWT via `node:crypto`, plain fetch, diff by launch id + content hash in private extended properties, history kept before the snapshot window, `--dry-run`, `--calendar` override. New `sync` job in publish.yml in the `google-calendar` environment (main only).
