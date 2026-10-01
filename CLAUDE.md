@@ -31,7 +31,6 @@ Node 24 runs the TypeScript in `src/` directly (type stripping, no build). Impor
 
 - `main` is protected by the "Protect main" ruleset: PR only, squash only, code-owner review; Roman merges via admin bypass. Direct pushes fail.
 - MIT licensed. Launch data belongs to The Space Devs; credit them, never relicense it.
-
 - Never imply the site is official SpaceX: "unofficial" in the footer, no SpaceX logo, assets or CSS.
 - Landing page uses a SpaceX-inspired visual language only (black, D-DIN uppercase, outline buttons, NASA photos).
 - Event identity = upstream launch id, so updates edit the same event instead of duplicating it.

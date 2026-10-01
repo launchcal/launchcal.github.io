@@ -1,5 +1,12 @@
 # Progress log
 
+## 2026-10-01 (step 3 verified live)
+
+- PR #4 merged; first publish run green (build + deploy), 141 launches, feeds 14/1/1/10 events.
+- https://launchcal.github.io/cal/*.ics: HTTP 200, `text/calendar`, CRLF on every line, parses with Python icalendar. Root shows the placeholder page.
+- Roman deleted the "launchcal test" calendar and subscribed Google to `all.ics`; Google read it immediately: 14/14 events matched (times, all-day, tentative, free, cleaned-up text).
+- Open: change propagation on Google's next refresh (check from 2026-10-02). Next: step 4.
+
 ## 2026-10-01 (step 3)
 
 - CI (typecheck + tests, required check `test` on main) and publish workflow (every 2h, push to main, manual) deploying `site/` to Pages. Generated snapshot and feeds removed from git. Pages source switched from branch to GitHub Actions. Review found configure-pages would 403 with a read-only token; step removed.
