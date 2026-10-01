@@ -2,22 +2,24 @@
 
 ## Current state
 
-Steps 1-3 are merged and live. No blockers. Every 2 hours GitHub Actions fetches SpaceX launches (upcoming + last 30 days) from Launch Library 2, builds 4 ICS feeds and deploys them to https://launchcal.github.io/cal/{all,crewed,starship,no-starlink}.ics. Verified 2026-10-01: feeds serve 200 `text/calendar` with CRLF; Roman's Google account is subscribed to `all.ics` ("SpaceX launches" calendar) and all 14 events matched the feed. Not yet verified: that Google picks up a *changed* event on its next refresh (see Next steps 1). The site root is a placeholder page until step 5.
+Steps 1-4 are merged. Blocker for CI only: the first publish run after merging PR #6 (2026-10-01 15:11 UTC) failed in `build` because Launch Library 2 was not responding (fetch timed out twice; curl from Roman's PC also hung). Last good Pages deploy stays live. The 4 native Google Calendars were filled by a local `npm run sync` instead (14/1/1/10 events, re-run 0 changes) and are public: Google's anonymous `public/basic.ics` returns 200 with full details for all four. CI sync is UNVERIFIED until a publish run reaches the `sync` job.
 
 ## Next steps
 
-1. **Check the subscription update** (any time from 2026-10-02): read Roman's "SpaceX launches" calendar via the Google Calendar connector and compare with the live `all.ics`. Expect Crew-13 and Transporter 18 to show "Status: Success" and Starlink 15-23 (2026-09-02) to be gone. If they match, the fixed-DTSTAMP question is settled; record it here.
-2. **Step 4, Google Calendar sync**: 4 native public Google Calendars updated via the Calendar API (service account), diff by launch id stored in an event extended property, create/update/delete, dry-run mode, reuse `src/event.ts` unchanged. Prereq (Roman, Claude writes the click path first): GCP project, Calendar API enabled, service account, JSON key as GitHub Actions secret, 4 public calendars shared with the service account. Verify on a test calendar first, then a real time change propagating within one run.
-3. **Step 5, landing page**: SpaceX-inspired design (black, full-bleed NASA photo, D-DIN uppercase, outline buttons, no SpaceX assets), 4 "Add to Google Calendar" buttons + ICS links, disclaimer, Buy Me a Coffee. Prereq (Roman): Buy Me a Coffee account.
-4. **Step 6, go-live**: README update (subscribe links), announce.
+1. **Confirm the first CI sync**: `gh run list --repo launchcal/launchcal.github.io --workflow publish.yml --limit 3`; once a run passes `build`, its `sync` log should show only real changes (mostly 0). If LL2 is still down for many hours, nothing breaks, the calendars just go stale.
+2. **Delete the local key and the test calendar** once (1) is green: `%USERPROFILE%\.launchcal\sa.json`, the copy in Downloads (`launchcal-510314-*.json`), and the `launchcal test` calendar. Keep a key only if local syncs are still wanted.
+3. **Check the ICS subscription update** (from 2026-10-02): compare Roman's subscribed "SpaceX launches" (ICS) calendar with live `all.ics`; expect Crew-13 and Transporter 18 "Status: Success" and Starlink 15-23 gone.
+4. **Step 5, landing page**: SpaceX-inspired design (black, full-bleed NASA photo, D-DIN uppercase, outline buttons, no SpaceX assets), 4 "Add to Google Calendar" buttons (`https://calendar.google.com/calendar/u/0/r?cid=<googleId>` from `src/calendars.ts`) + ICS links, disclaimer, Buy Me a Coffee. Prereq (Roman): Buy Me a Coffee account.
+5. **Step 6, go-live**: README update (subscribe links), announce.
 
-Roman picks the order of 1 and 2; 1 is a 2-minute check.
+Roman picks the order; 1-3 are short checks.
 
 ## Decisions (2026-10-01)
 
 - Native public Google Calendars (fast updates) plus ICS mirror of the same data. 4 calendars: all, crewed, starship, no-starlink (ids are public URLs, never rename).
 - Event rules: SEC/MIN/HR precision → 1 hour event at T-0, window in description; DAY → all-day; month or coarser → no event. Not-yet-go status → "(TBD)" suffix + TENTATIVE; flown (Success/Failure) → confirmed, "(Failure)" suffix kept. Crewed = crew listed or Crew Dragon. No-Starlink keeps Starship flights carrying Starlink. Events are TRANSP:TRANSPARENT (free).
 - Generated data is never committed: `main` only accepts PRs, and a failed run leaves the last deploy live.
+- Google sync (2026-10-01): service account `launchcal-sync@launchcal-510314.iam.gserviceaccount.com` in GCP project `launchcal-510314` (no billing account), shared on each calendar as "Make changes and see all event details". Events older than the snapshot window are kept in Google as history; ICS drops them. Google calendar ids live in `src/calendars.ts` and are public; never change them.
 - Name launchcal; GitHub org `launchcal`, repo `launchcal/launchcal.github.io`, no bought domain. MIT for code; data credited to The Space Devs.
 
 ## Repo setup
@@ -25,11 +27,13 @@ Roman picks the order of 1 and 2; 1 is a 2-minute check.
 - Ruleset "Protect main": PR required, code-owner (`@roma321m`) review, threads resolved, squash only, required check `test` (ci.yml), no force push/deletion. Roman merges via admin bypass checkbox; wait for CI green first, the bypass also skips CI.
 - Secret scanning + push protection, Dependabot alerts + security PRs (version PRs off), private vulnerability reporting. Actions token read-only by default; fork PR runs need approval; never use `pull_request_target`. Actions pinned by commit SHA.
 - Pages source: GitHub Actions (`build_type: workflow`); `github-pages` environment deploys from `main` only.
+- Environment `google-calendar`: deployment branches `main` only, secret `GOOGLE_SERVICE_ACCOUNT_KEY` (service account JSON). Only the `sync` job uses it.
 - Org: base permission none, 2FA required.
 
 ## How to run
 
-- Local: `npm ci`, `npm run fetch` (live API, writes git-ignored `data/snapshot.json`), `npm run build` (writes git-ignored `site/cal/*.ics`), `npm test` (40 tests), `npm run typecheck`.
+- Local: `npm ci`, `npm run fetch` (live API, writes git-ignored `data/snapshot.json`), `npm run build` (writes git-ignored `site/cal/*.ics`), `npm test` (57 tests), `npm run typecheck`.
+- Google sync: `GOOGLE_SERVICE_ACCOUNT_KEY_FILE=$USERPROFILE/.launchcal/sa.json npm run sync -- --dry-run` (reads only). Test a single calendar elsewhere with `-- --calendar all=<googleCalendarId>`. Without a key file, local sync is impossible; CI has the key.
 - Deploy: merge to `main`, or Actions → publish → Run workflow. Check: `gh run list --repo launchcal/launchcal.github.io --limit 3`.
 - Every change goes branch → PR → CI green → Roman merges. Docs changes too.
 
@@ -44,6 +48,11 @@ Roman picks the order of 1 and 2; 1 is a 2-minute check.
 - LL2 rate limits per IP and runners share IPs: publish retries the fetch once after 90s. Watch the failure rate in the Actions tab.
 - ICS feeds must keep CRLF. They are built on Linux in CI now; if feeds are ever committed again, Windows `autocrlf` will rewrite them (needs `*.ics -text`).
 - Google refreshes subscribed ICS feeds only every ~12-24h; Pages caches 10 min. Step 4 exists because of this.
+- Google sync deletes by the event's *stored* start: a flown launch whose net is later moved to before the 30-day window gets deleted instead of kept as history. Rare; accepted.
+- Google sync has no retry: a rate limit or 5xx aborts the run mid-way (later calendars skipped). The next run converges because the diff is against Google itself.
+- Google lists event starts in the calendar's timezone (`+03:00`), not UTC; comparisons use `Date.parse`, never string compare.
+- Only events with private property `launchcal=1` are touched; anything added by hand to the public calendars stays forever.
+- LL2 can be fully down (2026-10-01 ~15:10 UTC: no response at all). Then `build` fails, nothing deploys or syncs, last state stays live.
 - The recent/upcoming merge in `src/fetch.ts` (upcoming wins by id) is untested script code; testing it needs a small extraction (ask Roman).
 - Bash tool on this PC: backslashes in heredoc-fed Python and sed get mangled; use the Edit tool for code containing `\n` or regex escapes.
 
