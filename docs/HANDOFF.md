@@ -2,7 +2,7 @@
 
 ## Current state
 
-Planning done. Repo at https://github.com/launchcal/launchcal.github.io. No code yet.
+Step 1 (fetch and normalise) done on branch `feat/fetch-normalise`. Repo at https://github.com/launchcal/launchcal.github.io.
 
 ## Architecture
 
@@ -29,14 +29,18 @@ Stack: Node 24 + TypeScript run directly (no build step), `googleapis`, plain st
 5. Landing page: description, 4 subscribe buttons + ICS links, disclaimer, Buy Me a Coffee. Done: phone width OK, every button correct. Prereq (Roman): Buy Me a Coffee account.
 6. Go-live: enable Pages at `launchcal.github.io`, README.
 
-Next step: 1.
+Next step: 2.
 
 ## How to run
 
-Nothing to run yet.
+`npm ci`, then `npm run fetch` (writes `data/snapshot.json`), `npm test`, `npm run typecheck`.
 
 ## Traps
 
+- LL2 vague dates are the norm: on 2026-10-01, 40 of 100 launches were year-only, 27 month-only, 5 day-or-better. Vague `net` is a placeholder like `2026-12-31T00:00:00Z`.
+- LL2 lists only about 1 Starlink launch ahead (they are announced late), so the "no Starlink" calendar differs little from "All" until close to launch.
+- "Crewed" cannot rely on the crew list alone: Axiom 5 and Crew-15 have no crew assigned yet. Haven-1 and the Starship HLS demo are `Human Exploration` but uncrewed.
+- LL2 placeholders (`Unknown F9` serial, `N/A` landing) are mapped to null in `toLaunch`.
 - Launch times change hours before liftoff (scrubs). A once-a-day poll is too slow.
 - LL2 free tier is rate limited; one scheduled fetch, never per visitor.
 - A failed or suspiciously empty fetch must abort without writing, or one outage wipes every subscriber's calendar. Needs its own test.
