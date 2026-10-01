@@ -1,5 +1,9 @@
 # Progress log
 
+## 2026-10-01 (repo hardening)
+
+- MIT license, README, CONTRIBUTING, SECURITY, Code of Conduct, CODEOWNERS, issue/PR templates. Repo, security, Actions settings and the "Protect main" ruleset applied via API; Roman set org base permission none and 2FA, and removed his conflicting older ruleset.
+
 ## 2026-10-01 (step 1)
 
 - Fetch and normalise: LL2 client with paging and abort-on-failure guards, `Launch` model, `data/snapshot.json` (133 launches), atomic write, duplicate-id and timeout guards. 11 tests, all mutation-checked; independent review findings fixed (sort, atomic write, dedupe, null fallbacks). Live fetch run twice: identical snapshot.
