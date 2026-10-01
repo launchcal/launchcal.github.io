@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>launchcal: SpaceX launches in your calendar</title>
+  <meta name="description" content="Free, unofficial, self-updating calendars of SpaceX launches for Google Calendar, Apple Calendar and Outlook.">
+  <meta name="theme-color" content="#000000">
+  <meta property="og:title" content="launchcal: SpaceX launches in your calendar">
+  <meta property="og:description" content="Free, unofficial, self-updating calendars of SpaceX launches.">
+  <meta property="og:image" content="https://launchcal.github.io/img/crs-20-launch.jpg">
+  <meta property="og:url" content="https://launchcal.github.io/">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="fonts/D-DIN-Bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="hero">
+    <img class="hero-photo" src="img/crs-20-launch.jpg" width="1277" height="1920" alt="A Falcon 9 rocket lifting off at night, its flame reflected in the water in front of the launch pad.">
+    <div class="hero-text">
+      <p class="wordmark">launchcal</p>
+      <h1>SpaceX launches<br>in your calendar</h1>
+      <p class="lede">Free, unofficial calendars that keep themselves up to date. Scrubs and new launch times show up within hours, in your own time zone.</p>
+      <a class="btn btn-primary" href="#calendars">Choose a calendar</a>
+
+      <section class="next" id="next" hidden>
+        <h2 id="next-heading">Next launch</h2>
+        <p class="next-title" id="next-title"></p>
+        <p class="next-when" id="next-when"></p>
+        <p class="next-clock" id="next-clock"></p>
+        <p class="next-meta" id="next-meta"></p>
+      </section>
+    </div>
+  </header>
+
+  <main>
+    <section class="calendars" id="calendars">
+      <h2>Pick a calendar</h2>
+      <div class="cards">
+<!-- calendars -->
+      </div>
+    </section>
+
+    <section class="faq">
+      <h2>Good to know</h2>
+      <dl>
+        <dt>How fresh is it?</dt>
+        <dd>Launch data is checked every two hours. Google calendars update right away; Apple and Outlook refresh on their own schedule, usually a few times a day.</dd>
+        <dt>Why are some launches all-day or marked (TBD)?</dt>
+        <dd>When only the day is known, the launch is an all-day event. "(TBD)" means the date is not confirmed yet. Launches known only to the month are left out until they firm up.</dd>
+        <dt>Will it fill my calendar with alerts?</dt>
+        <dd>No. Events show as free time and have no reminders of their own; add one to any launch you want to watch.</dd>
+        <dt>How do I unsubscribe?</dt>
+        <dd>Remove the calendar in your calendar app, like any other subscribed calendar.</dd>
+      </dl>
+    </section>
+  </main>
+
+  <footer>
+    <p><strong>Unofficial.</strong> Not affiliated with, endorsed by or connected to SpaceX.</p>
+    <p>Launch data: <a href="https://thespacedevs.com/llapi">The Space Devs</a> (Launch Library 2). Photo: CRS-20 launch, NASA/Tony Gray and Tim Terry; NASA does not endorse this site.</p>
+    <p>Open source under the MIT license on <a href="https://github.com/launchcal/launchcal.github.io">GitHub</a>. No cookies, no tracking.</p>
+  </footer>
+  <p class="visually-hidden" id="copy-status" role="status"></p>
+</body>
+</html>
