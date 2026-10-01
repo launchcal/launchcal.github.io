@@ -1,5 +1,12 @@
 # Progress log
 
+## 2026-10-01 (step 4)
+
+- Google Calendar sync merged (PR #6): service account JWT via `node:crypto`, plain fetch, diff by launch id + content hash in private extended properties, history kept before the snapshot window, `--dry-run`, `--calendar` override. New `sync` job in publish.yml in the `google-calendar` environment (main only).
+- Verified on a test calendar: 14 inserts matching `all.ics`, re-run 0, time change updated the same Google event id, removal deleted, restore re-synced.
+- 57 tests; planner, hash, JWT, listEvents mutation-checked. Independent review: fixed `--calendar` parsing, added paging/error tests; accepted no-retry and stored-start delete edge (see Traps).
+- First CI run after merge failed in `build`: LL2 not responding at all. Real calendars filled locally instead: 14/1/1/10, idempotent re-run, all four public (anonymous `public/basic.ics` 200 with details). CI sync still unverified.
+
 ## 2026-10-01 (step 3 verified live)
 
 - PR #4 merged; first publish run green (build + deploy), 141 launches, feeds 14/1/1/10 events.
