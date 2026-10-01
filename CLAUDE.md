@@ -16,5 +16,6 @@ Planning phase. No stack chosen, no code yet. See `docs/HANDOFF.md` for the open
 
 ## Project rules
 
-- Never imply the site is official SpaceX: "unofficial" in the title, no SpaceX logo.
+- Never imply the site is official SpaceX: "unofficial" in the footer, no SpaceX logo, assets or CSS.
+- Landing page uses a SpaceX-inspired visual language only (black, D-DIN uppercase, outline buttons, NASA photos).
 - Event identity = upstream launch id, so updates edit the same event instead of duplicating it.

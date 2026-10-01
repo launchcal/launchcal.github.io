@@ -1,5 +1,10 @@
 # Progress log
 
+## 2026-10-01 (later)
+
+- Decided: native Google calendars + ICS mirror, 4 calendars, name launchcal, public repo, GitHub org instead of a bought domain, SpaceX-inspired (not cloned) design.
+- Public repo created: https://github.com/roma321m/launchcal. Roadmap of 6 steps written to HANDOFF.
+
 ## 2026-10-01
 
 - Project folder created, git initialised. Planning phase started.
