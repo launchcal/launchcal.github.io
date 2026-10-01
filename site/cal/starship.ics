@@ -1,0 +1,39 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//launchcal//launchcal.github.io//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Starship launches
+X-WR-CALDESC:Unofficial\, auto-updating calendar from https://launchcal.git
+ hub.io. Not affiliated with SpaceX. Launch data: The Space Devs.
+REFRESH-INTERVAL;VALUE=DURATION:PT2H
+X-PUBLISHED-TTL:PT2H
+BEGIN:VEVENT
+UID:7d1afb26-6f9c-429b-9ccf-29012fd1e519@launchcal.github.io
+DTSTAMP:20261001T000000Z
+DTSTART:20260928T124859Z
+DTEND:20260928T134859Z
+SUMMARY:🚀 Starship · Starlink Group 31-1 (Starship Flight 14)
+LOCATION:Orbital Launch Pad 2\, SpaceX Starbase\, TX\, USA
+DESCRIPTION:Status: Success\nWindow: 2026-09-28 12:15 to 2026-09-28 13:30 U
+ TC\nBooster: Booster 21\, landing GOM\nSpacecraft: Ship 41\nOrbit: Low Ear
+ th Orbit\nMission type: Communications\nWebcast: https://www.youtube.com/w
+ atch?v=Dun8yJ6qvmA\n\n14th test flight of the two-stage Starship launch ve
+ hicle. 3rd flight of Starship V3 and the first Starship flight to deploy s
+ atellites (a group of Starlink satellites known as Starlink Group 31-1) in
+ to stable Low Earth Orbit.\n\nThe ship is expected to fly at an altitude a
+ pproximately 275 km above Earth and complete approximately 6 orbits around
+  the planet for nearly 10 hours\, with splashdown targeted in the Pacific 
+ Ocean west of Chile.\n\nThe booster’s primary test objective on Flight 1
+ 4 will be executing a successful launch\, ascent\, stage separation\, boos
+ tback burn\, and landing burn at an offshore landing point in the Gulf.\n\
+ nStarship will deliver 26 Starlink V3 satellites to orbit for the first ti
+ me\, which aim to greatly expand the network's capacity and user speeds. E
+ ach Starlink V3 satellite will add 1 Tbps of capacity to the constellation
+ .\n\nUnofficial\, not affiliated with SpaceX. Data: The Space Devs. https:
+ //launchcal.github.io
+URL:https://www.youtube.com/watch?v=Dun8yJ6qvmA
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+END:VCALENDAR

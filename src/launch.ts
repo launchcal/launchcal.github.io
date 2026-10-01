@@ -1,7 +1,8 @@
 /** A first stage flying on a launch; `serial` is null while the booster is unassigned. */
 export interface Booster {
   serial: string | null;
-  landingAttempt: boolean;
+  /** Null while Launch Library 2 does not know whether a landing is planned. */
+  landingAttempt: boolean | null;
   /** Landing zone or droneship abbreviation, e.g. "LZ-40" or "ASOG". */
   landingLocation: string | null;
 }
