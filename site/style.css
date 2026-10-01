@@ -256,6 +256,51 @@ footer {
   border-top: 1px solid var(--line);
 }
 
+.preview {
+  padding: 72px 0;
+  border-top: 1px solid var(--line);
+}
+
+.shots {
+  display: grid;
+  gap: 24px;
+}
+
+.shots figure {
+  margin: 0;
+}
+
+.shots img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.shots figcaption,
+.shots-note {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.shots-note {
+  margin: 24px 0 0;
+  font-size: 0.85rem;
+}
+
+@media (min-width: 900px) {
+  .shots {
+    grid-template-columns: 3fr 2fr;
+    align-items: start;
+  }
+
+  .shot-main {
+    grid-row: span 2;
+  }
+}
+
 .cards {
   display: grid;
   gap: 16px;
