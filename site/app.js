@@ -21,6 +21,11 @@ document.addEventListener('click', async (event) => {
   }, 1500);
 });
 
+// Schedule: launches with a known time are rendered in UTC; show them in the visitor's time zone instead.
+for (const time of document.querySelectorAll('time[data-local]')) {
+  time.textContent = new Date(time.dateTime).toLocaleString(undefined, { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZoneName: 'short' });
+}
+
 // Next launch: the first launch in next.json that has not ended on the visitor's clock.
 const panel = document.getElementById('next');
 fetch('next.json')

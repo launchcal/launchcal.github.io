@@ -3,21 +3,31 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>launchcal: SpaceX launches in your calendar</title>
-  <meta name="description" content="Free, unofficial, self-updating calendars of SpaceX launches for Google Calendar, Apple Calendar and Outlook.">
+  <title>SpaceX Launch Calendar for Google, Apple and Outlook | launchcal</title>
+  <meta name="description" content="Free SpaceX launch calendar that updates itself: every Falcon 9, Falcon Heavy, Starship and crewed launch in Google Calendar, Apple Calendar or Outlook, in your time zone.">
+  <link rel="canonical" href="https://launchcal.github.io/">
   <meta name="theme-color" content="#000000">
-  <meta property="og:title" content="launchcal: SpaceX launches in your calendar">
-  <meta property="og:description" content="Free, unofficial, self-updating calendars of SpaceX launches.">
-  <meta property="og:image" content="https://launchcal.github.io/img/crs-20-launch.jpg">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="launchcal">
+  <meta property="og:title" content="SpaceX Launch Calendar for Google, Apple and Outlook">
+  <meta property="og:description" content="Every SpaceX launch in your calendar, updated automatically: Falcon 9, Falcon Heavy, Starship and crewed flights.">
   <meta property="og:url" content="https://launchcal.github.io/">
+  <meta property="og:image" content="https://launchcal.github.io/img/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="A Falcon 9 rocket lifting off at night from its launch pad.">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preload" href="fonts/D-DIN-Bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/D-DIN.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" as="image" href="img/crs-20-launch-960.webp" imagesrcset="img/crs-20-launch-640.webp 640w, img/crs-20-launch-960.webp 960w, img/crs-20-launch-1277.webp 1277w" imagesizes="(min-width: 900px) 46vw, 100vw">
+<!-- structured-data -->
   <link rel="stylesheet" href="style.css">
   <script src="app.js" defer></script>
 </head>
 <body>
   <header class="hero">
-    <img class="hero-photo" src="img/crs-20-launch.jpg" width="1277" height="1920" alt="A Falcon 9 rocket lifting off at night, its flame reflected in the water in front of the launch pad.">
+    <img class="hero-photo" src="img/crs-20-launch-960.webp" srcset="img/crs-20-launch-640.webp 640w, img/crs-20-launch-960.webp 960w, img/crs-20-launch-1277.webp 1277w" sizes="(min-width: 900px) 46vw, 100vw" width="1277" height="1920" fetchpriority="high" alt="A Falcon 9 rocket lifting off at night, its flame reflected in the water in front of the launch pad.">
     <div class="topbar">
       <p class="wordmark">launchcal</p>
       <nav class="project-links" aria-label="Project">
@@ -27,16 +37,10 @@
     </div>
     <div class="hero-text">
       <h1>SpaceX launches<br>in your calendar</h1>
-      <p class="lede">Free, unofficial calendars that keep themselves up to date. Scrubs and new launch times show up within hours, in your own time zone.</p>
+      <p class="lede">A free, unofficial SpaceX launch calendar that keeps itself up to date: Falcon 9, Falcon Heavy, Starship and crewed flights. Scrubs and new launch times show up within hours, in your own time zone.</p>
       <a class="btn btn-primary" href="#calendars">Choose a calendar</a>
 
-      <section class="next" id="next" hidden>
-        <h2 id="next-heading">Next launch</h2>
-        <p class="next-title" id="next-title"></p>
-        <p class="next-when" id="next-when"></p>
-        <p class="next-clock" id="next-clock"></p>
-        <p class="next-meta" id="next-meta"></p>
-      </section>
+<!-- next -->
     </div>
   </header>
 
@@ -45,15 +49,15 @@
       <h2>What it looks like</h2>
       <div class="shots">
         <figure class="shot-main">
-          <img src="img/screens/google-event.jpg" width="800" height="560" loading="lazy" alt="Google Calendar showing the Falcon 9 Crew-13 event: launch time, pad, status, booster, spacecraft, crew, orbit and webcast link.">
+          <img src="img/screens/google-event.webp" width="800" height="560" loading="lazy" alt="Google Calendar showing the Falcon 9 Crew-13 event: launch time, pad, status, booster, spacecraft, crew, orbit and webcast link.">
           <figcaption>Every launch carries the details: time, pad, booster and landing, crew, webcast.</figcaption>
         </figure>
         <figure>
-          <img src="img/screens/google-agenda.jpg" width="780" height="800" loading="lazy" alt="Google Calendar schedule on a phone listing upcoming Falcon 9 and Falcon Heavy launches with their local times.">
+          <img src="img/screens/google-agenda.webp" width="780" height="800" loading="lazy" alt="Google Calendar schedule on a phone listing upcoming Falcon 9 and Falcon Heavy launches with their local times.">
           <figcaption>Upcoming launches on your phone, in your time zone.</figcaption>
         </figure>
         <figure>
-          <img src="img/screens/google-week.jpg" width="800" height="560" loading="lazy" alt="Google Calendar week view with Starship and Falcon 9 launches as one-hour events.">
+          <img src="img/screens/google-week.webp" width="800" height="560" loading="lazy" alt="Google Calendar week view with Starship and Falcon 9 launches as one-hour events.">
           <figcaption>Launches sit in your week next to everything else, marked as free time.</figcaption>
         </figure>
       </div>
@@ -67,9 +71,21 @@
       </div>
     </section>
 
+    <section class="upcoming" id="schedule">
+      <h2>Upcoming SpaceX launches</h2>
+      <p class="section-intro">The SpaceX launch schedule as it stands now. Dates are only as precise as they are known; launches without a firm day are not in the calendars yet.</p>
+<!-- schedule -->
+    </section>
+
     <section class="faq">
       <h2>Good to know</h2>
       <dl>
+        <dt>How do I add SpaceX launches to Google Calendar?</dt>
+        <dd>Pick a calendar above and press "Add to Google Calendar", then confirm. It appears in your calendar list on the web, Android and iPhone, and updates on its own.</dd>
+        <dt>How do I add them to my iPhone, Apple Calendar or Outlook?</dt>
+        <dd>Press "Apple / Outlook" to subscribe directly, or copy the ICS link. On iPhone: Settings → Calendar → Accounts → Add Account → Other → Add Subscribed Calendar. In Outlook: Add calendar → Subscribe from web.</dd>
+        <dt>Can I follow only Starship or crewed launches?</dt>
+        <dd>Yes. Besides every SpaceX launch, there are calendars for Starship flights, for crewed Dragon missions, and for everything except routine Starlink launches.</dd>
         <dt>How fresh is it?</dt>
         <dd>Launch data is checked every two hours. Google calendars update right away; Apple and Outlook refresh on their own schedule, usually a few times a day.</dd>
         <dt>Why are some launches all-day or marked (TBD)?</dt>
@@ -78,6 +94,8 @@
         <dd>No. Events show as free time and have no reminders of their own; add one to any launch you want to watch.</dd>
         <dt>How do I unsubscribe?</dt>
         <dd>Remove the calendar in your calendar app, like any other subscribed calendar.</dd>
+        <dt>Where does the launch schedule come from?</dt>
+        <dd>From Launch Library 2 by The Space Devs, a community-run database of launches. launchcal is not affiliated with SpaceX.</dd>
       </dl>
     </section>
   </main>

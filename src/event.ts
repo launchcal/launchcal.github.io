@@ -18,7 +18,7 @@ export interface CalendarEvent {
   confirmed: boolean;
 }
 
-const TIMED_PRECISIONS = new Set(['SEC', 'MIN', 'HR']);
+export const TIMED_PRECISIONS = new Set(['SEC', 'MIN', 'HR']);
 
 const CONFIRMED_STATUSES = new Set(['Go', 'In Flight', 'Success', 'Failure', 'Partial Failure']);
 

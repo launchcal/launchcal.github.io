@@ -28,7 +28,11 @@ for (const { calendar, events } of feeds) {
   console.log(`site/cal/${calendar.id}.ics: ${events.length} events`);
 }
 
-await writeFile('site/index.html', renderPage(await readFile('src/page.html', 'utf8'), CALENDARS));
+const flown = new Set(['Success', 'Failure', 'Partial Failure']);
+const upcoming = launches
+  .filter((launch) => !flown.has(launch.status) && Date.parse(launch.net) + 3_600_000 > Date.now())
+  .sort((a, b) => Date.parse(a.net) - Date.parse(b.net) || a.name.localeCompare(b.name));
 const next = nextLaunches(all, new Date(), NEXT_COUNT);
+await writeFile('site/index.html', renderPage(await readFile('src/page.html', 'utf8'), CALENDARS, next[0], upcoming));
 await writeFile('site/next.json', JSON.stringify(next) + '\n');
 console.log(`site/index.html, site/next.json: ${next.length} upcoming`);

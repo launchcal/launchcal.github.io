@@ -438,6 +438,62 @@ footer {
   gap: 10px;
 }
 
+.upcoming {
+  padding: 72px 0;
+  border-top: 1px solid var(--line);
+}
+
+.section-intro {
+  max-width: 46em;
+  margin: 0 0 24px;
+  color: var(--muted);
+}
+
+/* Launch schedule: date, mission and site stacked on phones, in columns on wide screens. */
+.schedule {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.schedule li {
+  display: grid;
+  gap: 2px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.schedule time {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.launch-name {
+  font-weight: 700;
+}
+
+.launch-site {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+@media (min-width: 900px) {
+  .schedule li {
+    grid-template-columns: 15em 1fr 1fr;
+    gap: 24px;
+    align-items: baseline;
+  }
+}
+
+.schedule-more summary {
+  margin-top: 24px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
 .faq dl {
   margin: 0;
   max-width: 46em;

@@ -1,11 +1,13 @@
-# launchcal
+# launchcal: SpaceX launch calendar
 
 [![ci](https://github.com/launchcal/launchcal.github.io/actions/workflows/ci.yml/badge.svg)](https://github.com/launchcal/launchcal.github.io/actions/workflows/ci.yml)
 [![publish](https://github.com/launchcal/launchcal.github.io/actions/workflows/publish.yml/badge.svg)](https://github.com/launchcal/launchcal.github.io/actions/workflows/publish.yml)
 [![Buy me a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-roma321m-FFDD00?logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/roma321m)
 
-Free, self-updating calendars of SpaceX launches. Subscribe once and every new launch, reschedule
-and scrub shows up in your calendar, in your own time zone.
+A free, self-updating SpaceX launch calendar for Google Calendar, Apple Calendar (iPhone, iPad, Mac)
+and Outlook. Subscribe once and every Falcon 9, Falcon Heavy, Starship and crewed Dragon launch,
+reschedule and scrub shows up in your calendar, in your own time zone. Separate calendars cover
+Starship flights only, crewed launches only, and everything except Starlink.
 
 **Website: https://launchcal.github.io**
 
