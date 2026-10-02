@@ -10,12 +10,13 @@ document.addEventListener('click', async (event) => {
     window.prompt('Copy this calendar link:', link.href);
     return;
   }
-  link.dataset.label ??= link.textContent;
-  link.textContent = 'Copied';
+  const label = link.querySelector('span') ?? link;
+  link.dataset.label ??= label.textContent;
+  label.textContent = 'Copied';
   copyStatus.textContent = 'Link copied';
   clearTimeout(link.copyTimer);
   link.copyTimer = setTimeout(() => {
-    link.textContent = link.dataset.label;
+    label.textContent = link.dataset.label;
     copyStatus.textContent = '';
   }, 1500);
 });
