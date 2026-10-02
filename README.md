@@ -2,6 +2,7 @@
 
 [![ci](https://github.com/launchcal/launchcal.github.io/actions/workflows/ci.yml/badge.svg)](https://github.com/launchcal/launchcal.github.io/actions/workflows/ci.yml)
 [![publish](https://github.com/launchcal/launchcal.github.io/actions/workflows/publish.yml/badge.svg)](https://github.com/launchcal/launchcal.github.io/actions/workflows/publish.yml)
+[![Buy me a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-roma321m-FFDD00?logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/roma321m)
 
 Free, self-updating calendars of SpaceX launches. Subscribe once and every new launch, reschedule
 and scrub shows up in your calendar, in your own time zone.
@@ -97,6 +98,11 @@ only print the changes, and `--calendar all=<calendarId>` to sync one calendar i
 
 See the [terms of use](https://launchcal.github.io/terms.html) and
 [privacy policy](https://launchcal.github.io/privacy.html) (no cookies, no tracking).
+
+## Support
+
+launchcal is free and ad-free. If it helps you catch a launch, you can
+[buy me a coffee](https://buymeacoffee.com/roma321m).
 
 ## Contributing
 

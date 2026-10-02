@@ -104,13 +104,99 @@ h3 {
   padding: 96px var(--gutter) 48px;
 }
 
-.wordmark {
+/* Top bar over the hero: wordmark on the left, GitHub and Buy Me a Coffee on the right. */
+.topbar {
   position: absolute;
-  top: 24px;
+  z-index: 2;
+  top: 16px;
   left: var(--gutter);
+  right: var(--gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.wordmark {
   margin: 0;
   font-size: 1rem;
   letter-spacing: 0.35em;
+}
+
+.project-links {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.github-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.github-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.github-link .icon {
+  width: 24px;
+  height: 24px;
+}
+
+.wide-only {
+  display: none;
+}
+
+@media (max-width: 599px) {
+  .topbar .wordmark,
+  .wordmark-link {
+    font-size: 0.85rem;
+    letter-spacing: 0.25em;
+  }
+
+  .project-links {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 359px) {
+  .btn-small span {
+    display: none;
+  }
+
+  .btn-small .icon {
+    margin-right: 0;
+  }
+}
+
+@media (min-width: 600px) {
+  .wide-only {
+    display: inline;
+  }
+}
+
+.icon {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.icon .fill {
+  fill: currentColor;
+  stroke: none;
 }
 
 .lede {
@@ -142,9 +228,10 @@ h3 {
     padding: 96px 48px 96px max(48px, calc((100vw - 1200px) / 2 + 48px));
   }
 
-  .wordmark {
-    top: 40px;
+  .topbar {
+    top: 28px;
     left: max(48px, calc((100vw - 1200px) / 2 + 48px));
+    right: max(48px, calc((100vw - 1200px) / 2 + 48px));
   }
 }
 
@@ -181,6 +268,22 @@ a:focus-visible {
 
 .btn-primary {
   border-width: 2px;
+}
+
+.btn .icon {
+  margin-right: 10px;
+}
+
+.btn-small {
+  min-height: 40px;
+  padding: 8px 12px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.btn-small .icon {
+  margin-right: 8px;
 }
 
 .card .btn-primary {
@@ -368,6 +471,10 @@ footer p {
 
 /* Terms and privacy pages. */
 .page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   max-width: 1200px;
   margin: 0 auto;
   padding: 24px var(--gutter);

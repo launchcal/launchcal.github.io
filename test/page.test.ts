@@ -59,6 +59,15 @@ describe('renderPage', () => {
     assert.ok(html.includes('aria-label="Copy the SpaceX crewed launches ICS link"'));
   });
 
+  it('puts a decorative icon before each button label, with the label in its own span for the copy feedback', () => {
+    const html = renderPage(template, [calendar]);
+
+    assert.equal(html.match(/<svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">/g)!.length, 3);
+    assert.ok(html.includes('</svg><span>Add to Google Calendar</span></a>'));
+    assert.ok(html.includes('</svg><span>Apple / Outlook</span></a>'));
+    assert.ok(html.includes('</svg><span>Copy ICS link</span></a>'));
+  });
+
   it('escapes calendar text', () => {
     const html = renderPage(template, [{ ...calendar, name: 'Crew <b>& "friends"</b>', blurb: 'Dragon <i>& co</i>' }]);
 
