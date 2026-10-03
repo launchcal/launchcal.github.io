@@ -189,7 +189,7 @@ describe('renderPage structured data', () => {
 
   it('marks up launches with a known day as events, with the webcast as a virtual location', () => {
     const [, timed, day, ...rest] = graph([
-      launch({ name: 'Crew-14', netPrecision: 'MIN', net: '2026-10-05T08:16:00Z', webcasts: [{ title: 'SpaceX', url: 'https://www.youtube.com/watch?v=x' }] }),
+      launch({ name: 'Crew-14', netPrecision: 'MIN', net: '2026-10-05T08:16:00Z', windowEnd: '2026-10-05T10:16:00Z', webcasts: [{ title: 'SpaceX', url: 'https://www.youtube.com/watch?v=x' }] }),
       launch({ name: 'Bandwagon 5', netPrecision: 'DAY', net: '2026-10-07T00:00:00Z', description: null }),
       launch({ name: 'Vague', netPrecision: 'M', net: '2026-10-31T00:00:00Z' }),
     ]);
@@ -199,6 +199,7 @@ describe('renderPage structured data', () => {
       '@type': 'Event',
       name: 'Falcon 9 launch: Crew-14',
       startDate: '2026-10-05T08:16:00Z',
+      endDate: '2026-10-05T10:16:00Z',
       eventStatus: 'https://schema.org/EventScheduled',
       eventAttendanceMode: 'https://schema.org/MixedEventAttendanceMode',
       location: [
@@ -210,9 +211,26 @@ describe('renderPage structured data', () => {
       image: 'https://launchcal.github.io/img/og.jpg',
     });
     assert.equal(day.startDate, '2026-10-07');
+    assert.equal(day.endDate, '2026-10-07');
     assert.equal(day.eventAttendanceMode, 'https://schema.org/OfflineEventAttendanceMode');
     assert.deepEqual(day.location, { '@type': 'Place', name: 'SLC-40', address: 'Cape Canaveral SFS, FL, USA' });
     assert.equal(day.description, 'Falcon 9 launch from SLC-40, Cape Canaveral SFS, FL, USA.');
+  });
+
+  it('ends an instantaneous launch at its launch time', () => {
+    const [, instant] = graph([launch({ net: '2026-10-05T08:16:00Z', windowEnd: '2026-10-05T08:16:00Z' })]);
+
+    assert.equal(instant.endDate, '2026-10-05T08:16:00Z');
+  });
+
+  it('has no end date for a timed launch without a window end, or with one before the launch time', () => {
+    const [, unknown, earlier] = graph([
+      launch({ windowEnd: null }),
+      launch({ net: '2026-10-05T08:16:00Z', windowEnd: '2026-10-05T08:00:00Z' }),
+    ]);
+
+    assert.ok(!('endDate' in unknown));
+    assert.ok(!('endDate' in earlier));
   });
 
   it('cannot be closed early by text in the data', () => {

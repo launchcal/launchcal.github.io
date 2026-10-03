@@ -113,17 +113,20 @@ function place(launch: Launch): string {
   return launch.pad.startsWith('Unknown') ? launch.location : `${launch.pad}, ${launch.location}`;
 }
 
-/** schema.org WebSite plus an Event for each launch with a known day; vaguer launches are not events yet. */
+/** schema.org WebSite plus an Event for each launch with a known day (ending at its window end, or on its day when only the day is known); vaguer launches are not events yet. */
 function structuredData(upcoming: Launch[]): string {
   const events = upcoming
     .filter((launch) => TIMED_PRECISIONS.has(launch.netPrecision) || launch.netPrecision === 'DAY')
     .map((launch) => {
       const webcast = launch.webcasts.find((cast) => cast.url.startsWith('https://'))?.url;
       const site = { '@type': 'Place', name: launch.pad.startsWith('Unknown') ? launch.location : launch.pad, address: launch.location };
+      const day = launch.netPrecision === 'DAY';
+      const endDate = day ? launch.net.slice(0, 10) : launch.windowEnd && launch.windowEnd >= launch.net ? launch.windowEnd : undefined;
       return {
         '@type': 'Event',
         name: `${launch.rocket} launch: ${launch.name}`,
-        startDate: launch.netPrecision === 'DAY' ? launch.net.slice(0, 10) : launch.net,
+        startDate: day ? launch.net.slice(0, 10) : launch.net,
+        endDate,
         eventStatus: 'https://schema.org/EventScheduled',
         eventAttendanceMode: webcast ? 'https://schema.org/MixedEventAttendanceMode' : 'https://schema.org/OfflineEventAttendanceMode',
         location: webcast ? [site, { '@type': 'VirtualLocation', url: webcast }] : site,
